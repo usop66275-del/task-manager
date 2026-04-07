@@ -1,0 +1,17 @@
+const express = require('express');
+const router = express.Router();
+const auth = require('../controllers/authController');
+const task = require('../controllers/taskController');
+const verificarToken = require('../middlewares/auth');
+
+//Rutas de autenticacion
+router.post('/register',auth.require);
+router.post('/login',auth.login);
+
+//Rutas protegidas
+router.get('/tasks',verificarToken,task.getTasks);
+router.post('/tasks',verificarToken,task.createTask);
+router.put('/tasks/:id',verificarToken,task.updateTask);
+router.delete('/tasks/:id',verificarToken,task.deleteTask);
+
+module.exports = router;
